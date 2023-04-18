@@ -6,17 +6,37 @@
 export CONDA_NAME=image-ml-scratchbook
 conda create -n "$CONDA_NAME" python=3.11 -y
 conda activate "$CONDA_NAME"
-
 python -m pip install replicate
 python -m pip freeze > requirements.txt
 ```
 
-### docker example setup
+`aws s3 cp myimages.zip s3://<bucket>/myimages.zip`
 
 ```bash
-docker run -it <image_name> /bin/zsh
-docker run -it --rm --name mycontainer -e MYARG=myvalue myimage:tag
+bash train-dreambooth-myimages.sh
 ```
+
+```js
+{"created_at":"2023-04-17T07:37:12.067340Z",
+	"error":null,
+	"id":"ngyq3ezzrvcjthbzficakaiww4",
+	"input":{
+		"class_prompt":"a photo of a person",
+		"instance_data":"https://<bucket>/myimages.zip",
+		"instance_prompt":"a photo of a cjw person",
+		"max_train_steps":2000
+	},
+	"logs":null,
+	"metrics":{},
+	"model":"dummy-work-account/yourmodel",
+	"notes":null,
+	"status":"queued",
+	"webhook_completed":"https://example.com/dreambooth-webhook",
+	"version":null
+}
+````
+
+### docker example setup
 
 ```bash
 FROM python:3.9-slim-buster
@@ -32,6 +52,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 CMD [ "python", "my_script.py" ]
+```
+
+```bash
+docker run -it <image_name> /bin/zsh
+docker run -it --rm --name mycontainer -e MYARG=myvalue myimage:tag
 ```
 
 ## link dump
